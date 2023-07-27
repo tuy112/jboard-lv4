@@ -1,41 +1,35 @@
-const express = require("express");
-const session = require("express-session"); // Session
+const cors = require('cors');
+const express = require('express');
 const app = express();
-const port = 3000; // HTML, CSS
+const port = 3000;
 
-const path = require("path");
-
-// const cors = require("cors");
-// app.use(cors({ origin: true, credentials: true }));
+const path = require('path');
 
 // cookie parser
-const cookieParser = require("cookie-parser");
+const cookieParser = require('cookie-parser');
 
-const userRouter = require("./routes/userRoute.js");
-const postRouter = require("./routes/postRoute.js");
+const usersRouter = require('./routes/usersRoute.js');
+const postsRouter = require('./routes/postsRoute.js');
+const cmtsRouter = require('./routes/cmtsRoute.js');
 
-// Middleware
+// Middleware ==================================================
 app.use(express.json()); // req.body parser
 app.use(cookieParser()); // cookie parser
-app.use(express.urlencoded({ extended: false })); // URL-encoded 형식의 요청 본문 Parsing
-app.use(
-  session({
-    secret: "jboard", // Session을 암호화하는데 사용되는 임의의 문자열
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(cors()); // front-back connect
 
-// API 라우팅
-app.use("/api", [userRouter, postRouter]);
+// localhost:3000/api/
+app.use('/api', [usersRouter]);
+app.use('/api', [postsRouter]);
+app.use('/api', [cmtsRouter]);
+// Middleware ==================================================
 
 // HTML, CSS
-app.use(express.static(path.join(__dirname, "assets")));
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "assets", "index.html"));
+app.use(express.static(path.join(__dirname, 'assets')));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'assets', 'index.html'));
 });
 
-// 서버 시작
+// server start!!
 app.listen(port, () => {
-  console.log(port, "포트가 열렸습니다~^^");
+    console.log(port, '서버가 켜졌습니다.');
 });

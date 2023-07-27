@@ -4,9 +4,9 @@ const { Users } = require("../models");
 const router = express.Router();
 
 // 1. 유저 회원 가입 API [POST]
-router.post("/user/signup", async (req, res) => {
+router.post("/signup", async (req, res) => {
   console.log(req.body);
-  const { email, password, confirm } = req.body;
+  const { email, password, passwordConfirm } = req.body;
 
   const validEmailCheck = (string) => {
     const pattern = /^[a-zA-Z0-9]+@[a-zA-Z]+\.[A-Za-z]+$/;
@@ -25,10 +25,10 @@ router.post("/user/signup", async (req, res) => {
       .json({ errorMessage: "패스워드는 4자이상이어야 합니다." });
   }
 
-  if (password !== confirm) {
+  if (password !== passwordConfirm) {
     return res.status(412).json({
       errorMessage:
-        "패스워드가 일치하지 않습니다. 패스워드 재입력은 confirm 입니다.",
+        "패스워드가 일치하지 않습니다. 패스워드 재입력은 passwordConfirm 입니다.",
     });
   }
 
@@ -51,7 +51,7 @@ router.post("/user/signup", async (req, res) => {
 });
 
 // 2. 사장님 로그인 API [POST]
-router.post("/user/login", async (req, res) => {
+router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(email, password);
   const userCheck = await Users.findOne({
@@ -72,7 +72,7 @@ router.post("/user/login", async (req, res) => {
     // JWT 생성
     const token = jwt.sign(
       {
-        userId: ceoCheck.storeId,
+        userId: userCheck.userId,
       },
       "customized_secret_key"
       // 필요 시 수정
@@ -148,7 +148,7 @@ router.put("/user/:userId", async (req, res) => {
   }
 });
 
-// 5. 사장님 회원 탈퇴 API. [DELETE]
+// 5. 회원 탈퇴 API. [DELETE]
 router.delete("/user/:userId", async (req, res) => {
   const { userId } = req.params;
 

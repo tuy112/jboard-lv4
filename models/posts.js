@@ -8,6 +8,12 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: "userId",
         foreignKey: "userId",
       });
+      
+      // Posts와 Cmts는 일대다 관계
+      this.hasMany(models.Cmts, {
+        sourceKey: 'postId',
+        foreignKey: 'postId',
+      });
     }
   }
   Posts.init(

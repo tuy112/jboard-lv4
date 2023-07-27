@@ -1,12 +1,12 @@
-"use strict";
-const { Model } = require("sequelize");
+'use strict';
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
       // Users와 Posts는 일대다 관계
       this.hasMany(models.Posts, {
-        sourceKey: "userId",
-        foreignKey: "userId",
+        sourceKey: 'userId',
+        foreignKey: 'userId',
       });
     }
   }
@@ -26,23 +26,24 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         type: DataTypes.STRING,
       },
-      confirm: {
-        allowNull: false,
+      passwordConfirm: {
         type: DataTypes.STRING,
       },
       createdAt: {
-        allowNull: false,
+        allowNull: false, // NOT NULL
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
       },
       updatedAt: {
-        allowNull: false,
+        allowNull: false, // NOT NULL
         type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
       },
     },
     {
       sequelize,
-      modelName: "Users",
-    }
+      modelName: 'Users',
+    },
   );
   return Users;
 };
