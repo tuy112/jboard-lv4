@@ -4,11 +4,11 @@ module.exports = (sequelize, DataTypes) => {
   class Posts extends Model {
     static associate(models) {
       // Users와 Posts는 일대다 관계
-      this.belongsTo(models.Posts, {
+      this.belongsTo(models.Users, {
         targetKey: "userId",
         foreignKey: "userId",
       });
-      
+
       // Posts와 Cmts는 일대다 관계
       this.hasMany(models.Cmts, {
         sourceKey: 'postId',
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Posts.init(
     {
-      postid: {
+      postId: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,

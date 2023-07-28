@@ -9,21 +9,21 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: "Users",
-          key: "userId",
-        },
-        onDelete: "CASCADE",
-      },
       postId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: "Posts",
           key: "postId",
+        },
+        onDelete: "CASCADE",
+      },
+      userId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: "Users",
+          key: "userId",
         },
         onDelete: "CASCADE",
       },

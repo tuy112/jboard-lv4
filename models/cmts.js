@@ -5,9 +5,15 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Cmts extends Model {
     static associate(models) {
+      // Users와 Cmts는 일대다 관계
+      this.belongsTo(models.Users, {
+        targetKey: "userId",
+        foreignKey: "userId",
+      });
+
       // Posts와 Cmts는 일대다 관계
-      this.belongsTo(models.Cmts, {
-        targetKey: "postId",
+      this.belongsTo(models.Posts, {
+        sourceKey: "cmtId",
         foreignKey: "postId",
       });
     }
@@ -19,11 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-    userId: {
+    postId: {
       allowNull: false,
       type: DataTypes.INTEGER,
     },
-    postId: {
+    userId: {
       allowNull: false,
       type: DataTypes.INTEGER,
     },

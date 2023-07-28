@@ -4,7 +4,7 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 // 게시글 등록 [POST]
-router.post("/addPost", authMiddleware, async (req, res) => {
+router.post("/posts", authMiddleware, async (req, res) => {
   const { userId } = res.locals.user;
   const { title, content } = req.body;
 
@@ -38,7 +38,7 @@ router.post("/addPost", authMiddleware, async (req, res) => {
 });
 
 // 게시글 전체 조회 [GET]
-router.get("/getPostAll", async (req, res) => {
+router.get("/posts", async (req, res) => {
   try {
     const posts = await Posts.findAll({
       attributes: ["postId", "userId", "title", "content", "createdAt"],
@@ -54,7 +54,7 @@ router.get("/getPostAll", async (req, res) => {
 });
 
 // 게시글 수정 [PUT]
-router.put("/update/:postId", authMiddleware, async (req, res) => {
+router.put("/posts/:postId", authMiddleware, async (req, res) => {
   const { postId } = req.params;
   const { userId } = res.locals.user;
   const { title, content } = req.body;
@@ -90,7 +90,7 @@ router.put("/update/:postId", authMiddleware, async (req, res) => {
 });
 
 // 게시글 삭제_DELETE
-router.delete("/delete/:postId", authMiddleware, async (req, res) => {
+router.delete("/posts/:postId", authMiddleware, async (req, res) => {
   const { postId } = req.params;
   const { userId } = res.locals.user;
 
